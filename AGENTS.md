@@ -30,3 +30,10 @@ pnpm sync:skills
 ```
 
 `pnpm dev` will also detect drift on startup and offer to sync. `pnpm sync:skills --dry-run` (via `pnpm exec open-slide sync:skills --dry-run`) previews changes without writing.
+
+## Cursor Cloud specific instructions
+
+- **Package manager is npm here.** Although the docs above reference `pnpm`, this repo commits a `package-lock.json` and no `pnpm-lock.yaml`, so the Cloud environment uses `npm`. Dependencies are refreshed automatically by the startup update script (`npm install`). Use `npm run dev` / `npm run build` (defined in `package.json`). `pnpm`-specific commands in the docs (e.g. `pnpm up @open-slide/core`, `pnpm sync:skills`) still work if pnpm is installed, but the maintained path here is npm.
+- **Dev server:** `npm run dev` serves the deck at `http://localhost:5173`. It does not exit — run it in the background (e.g. tmux) when you need the shell back.
+- **No lint or test tooling exists** in this project (only `dev`, `build`, `preview`, `sync:skills` scripts; no ESLint, no test runner, no standalone `tsc`). `npm run build` (`open-slide build`, a Vite production build) is the closest thing to a compile/type check — use it to catch broken slides.
+- **Hot reload picks up new slides automatically:** adding `slides/<id>/index.tsx` while `npm run dev` is running makes the deck appear in the overview without a restart.
