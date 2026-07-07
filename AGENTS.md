@@ -31,6 +31,37 @@ pnpm sync:skills
 
 `pnpm dev` will also detect drift on startup and offer to sync. `pnpm sync:skills --dry-run` (via `pnpm exec open-slide sync:skills --dry-run`) previews changes without writing.
 
+## Workshop context: AstraFlow SDLC Model Routing
+
+The `astra-sdlc` deck supports a developer workshop built around **open-weight model routing through AstraFlow ModelVerse** (UCloud's OpenAI-compatible inference gateway). The core pitch is that a single premium frontier model is no longer the right default for every SDLC task; open-weight alternatives are now within 6–8% on the benchmarks that matter for daily engineering work while costing 5–12× less.
+
+### Event framing
+
+- **Audience:** Software developers and engineering teams using AI-assisted SDLC workflows.
+- **Setting:** UCloud / AstraFlow ModelVerse workshop (Jakarta context, regional endpoint `api-sg.umodelverse.ai`).
+- **Takeaway:** Stop defaulting to one frontier model. Route the right model to the right task through AstraFlow, verify quality with a rubric, and cut cost by an order of magnitude.
+
+### The four replacement tiers
+
+1. **Reasoning / backend brain:** Opus 4.8 → Kimi K2.7 (~8% benchmark gap, ~11× cheaper).
+2. **Code generation:** GPT-5.5 → Qwen 3.7 Max (~18% benchmark gap, ~7× cheaper).
+3. **Agent loops + tool calling:** Sonnet 4.7 → GLM 5.2 (~3% benchmark gap, ~5× cheaper on input).
+4. **Cheap volume / bulk processing:** GPT-5.5 mini → MiMo V2.5 (~6% benchmark gap, ~12× cheaper).
+
+These tiers are illustrative. Always verify live model IDs and pricing via `GET https://api-sg.umodelverse.ai/v1/models` before the workshop. Qwen 3.7 Max and MiMo V2.5 may not yet be available in the AstraFlow catalog; treat them as candidates to verify rather than guaranteed routes.
+
+### Supply-risk context
+
+Recent U.S. government action (June 2026) introduced a voluntary 30-day pre-release review window for covered frontier models and saw Anthropic's Fable 5 / Mythos 5 briefly suspended under export controls. OpenAI's GPT-5.6 shipped through a government-approved preview first. Open-weight models are currently exempt from the primary export-control classifications, adding a resilience argument to the cost argument.
+
+### Design system
+
+The deck follows the warm-cream editorial system in `design.md`: eggshell `#fdfcfc` canvas, warm taupe `#f5f3f1` cards, stone `#ebe8e4` hairlines, black ink, and violet `#0447ff` / orange `#ff4704` reserved only for decorative product-visual accents. Decorative diagrams, hairline connectors, and small gradient spheres are preferred over heavy UI chrome.
+
+### Verification rule
+
+Before any workshop delivery, recheck: model IDs, AstraFlow pricing, the four tier mappings, and the government-intervention facts. Use the live catalog as the source of truth.
+
 ## Cursor Cloud specific instructions
 
 - **Package manager is npm here.** Although the docs above reference `pnpm`, this repo commits a `package-lock.json` and no `pnpm-lock.yaml`, so the Cloud environment uses `npm`. Dependencies are refreshed automatically by the startup update script (`npm install`). Use `npm run dev` / `npm run build` (defined in `package.json`). `pnpm`-specific commands in the docs (e.g. `pnpm up @open-slide/core`, `pnpm sync:skills`) still work if pnpm is installed, but the maintained path here is npm.
