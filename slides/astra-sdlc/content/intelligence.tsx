@@ -18,16 +18,16 @@ export const INTELLIGENCE_PAGES: Page[] = [
     footnote: 'Verify model IDs and live pricing before the workshop.',
   }),
   ImageBenchmarkPage({
-    kicker: 'proof · cursor eval',
-    title: 'Same SDLC task. Scored output. Real cost.',
-    subtitle: 'Agentic SDLC tasks — frontier defaults vs open-weight routes on AstraFlow.',
+    kicker: 'cursor eval',
+    title: 'Same Cursor eval. Scored output. Real cost.',
+    subtitle: 'Cursor\'s agent benchmark — score, cost, tokens, and steps on identical tasks.',
     image: cursorEvalLeaderboard,
-    footerSource: 'Cursor eval · agentic SDLC tasks · Jul 2026',
+    footerSource: 'Cursor eval · agent benchmark · Jul 2026',
     callouts: [
       { label: 'frontier tier', items: ['Fable 5 Max · Opus 4.8 · GPT-5.5 — top eval scores, $4–18 per task.'] },
-      { label: 'open-weight route', items: ['Kimi K2.7 · GLM 5.2 on AstraFlow — same rubric, fraction of the cost.'] },
-      { label: 'workshop', items: ['Run both tiers through the same eval — route when the bar is met.'] },
+      { label: 'efficiency outlier', items: ['Composer 2.5 — 63% score at $0.55/task — cost-per-step matters as much as headline score.'] },
+      { label: 'workshop', items: ['Run frontier and open-weight routes through the same Cursor eval — route when the bar is met.'] },
     ],
-    footnote: 'Macro charts set context; Cursor eval scores the task you actually ship.',
+    footnote: 'Macro charts set context; Cursor eval is the agent benchmark — not a custom SDLC scorecard.',
   }),
 ];

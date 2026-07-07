@@ -86,10 +86,10 @@ export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note, 
   return PageFn;
 };
 
-export const SplitImageCalloutPage = ({ title, image, rows, source }: { title: string; image: string; rows: GridCard[]; source?: string }) => {
+export const SplitImageCalloutPage = ({ title, subtitle = 'Small benchmark gap, large cost gap — when the task bar is met.', image, rows, source }: { title: string; subtitle?: string; image: string; rows: GridCard[]; source?: string }) => {
   const PageFn: Page = () => (
     <Slide source={source}>
-      <Heading title={title} subtitle="Small benchmark gap, large cost gap — when the task bar is met." />
+      <Heading title={title} subtitle={subtitle} />
       <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 36, marginTop: 48, alignItems: 'start' }}>
         <img src={image} alt="" style={{ width: '100%', borderRadius: 16, border: `1px solid ${c.stone}` }} />
         <div style={{ display: 'grid', gap: 16 }}>
@@ -146,24 +146,47 @@ export const ImageBenchmarkPage = ({ title, image, callouts, footerSource, footn
   return PageFn;
 };
 
-export const PricingTablePage = ({ title, formula, rows, anchorNote, source }: { title: string; formula: string; rows: { model: string; input: string; output: string; note?: string }[]; anchorNote: string; source?: string }) => {
+export const PricingTablePage = ({ title, formula, rows, anchorNote, source, mode = 'token-rate' }: {
+  title: string;
+  formula: string;
+  rows: { model: string; input?: string; output?: string; costPerTask?: string; note?: string }[];
+  anchorNote: string;
+  source?: string;
+  mode?: 'token-rate' | 'task-cost';
+}) => {
+  const headers = mode === 'task-cost'
+    ? (['Model', '$/task', 'Note'] as const)
+    : (['Model', 'In $/M', 'Out $/M', 'Note'] as const);
+  const columns = mode === 'task-cost' ? '1.4fr 0.7fr 1.3fr' : '1.4fr 0.8fr 0.8fr 1fr';
   const PageFn: Page = () => (
     <Slide source={source}>
       <Heading kicker="cost model" title={title} />
       <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 36 }}>
         <Card style={{ padding: 36 }}>
           <div style={{ fontFamily: font.mono, fontSize: 22, color: c.smoke }}>TASK COST</div>
-          <div style={{ marginTop: 24, fontSize: 44, lineHeight: 1.2, fontWeight: 600 }}>{formula}</div>
+          <div style={{ marginTop: 24, fontSize: mode === 'task-cost' ? 40 : 44, lineHeight: 1.2, fontWeight: 600 }}>{formula}</div>
           <p style={{ marginTop: 24, fontSize: 26, color: c.smoke, lineHeight: 1.4 }}>{anchorNote}</p>
         </Card>
         <Card style={{ padding: 28 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 0.8fr 0.8fr 1fr', gap: 10, fontFamily: font.mono, fontSize: 18, color: c.ash, fontWeight: 500 }}>
-            <div>Model</div><div>In $/M</div><div>Out $/M</div><div>Note</div>
+          <div style={{ display: 'grid', gridTemplateColumns: columns, gap: 10, fontFamily: font.mono, fontSize: 18, color: c.ash, fontWeight: 500 }}>
+            {headers.map((h) => <div key={h}>{h}</div>)}
           </div>
           <Hairline />
           {rows.map((r) => (
-            <div key={r.model} style={{ display: 'grid', gridTemplateColumns: '1.4fr 0.8fr 0.8fr 1fr', gap: 10, fontSize: 22, padding: '10px 0', borderBottom: `1px solid ${c.stone}` }}>
-              <b>{r.model}</b><span>{r.input}</span><span>{r.output}</span><span style={{ color: c.smoke, fontSize: 20 }}>{r.note}</span>
+            <div key={r.model} style={{ display: 'grid', gridTemplateColumns: columns, gap: 10, fontSize: 22, padding: '10px 0', borderBottom: `1px solid ${c.stone}` }}>
+              <b>{r.model}</b>
+              {mode === 'task-cost' ? (
+                <>
+                  <span>{r.costPerTask}</span>
+                  <span style={{ color: c.smoke, fontSize: 20 }}>{r.note}</span>
+                </>
+              ) : (
+                <>
+                  <span>{r.input}</span>
+                  <span>{r.output}</span>
+                  <span style={{ color: c.smoke, fontSize: 20 }}>{r.note}</span>
+                </>
+              )}
             </div>
           ))}
         </Card>
