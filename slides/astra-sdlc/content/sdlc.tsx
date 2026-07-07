@@ -1,22 +1,107 @@
 import type { Page } from '@open-slide/core';
-import { DemoPlaceholderPage, FlowDiagramPage, SideBySideCompare } from '../factories';
+import { DemoPlaceholderPage, TaskComparePage } from '../factories';
+import { Card, Heading, Slide } from '../primitives';
+import { c } from '../tokens';
 import type { SdlcCompare } from '../types';
 
 export const SDLC_COMPARES: SdlcCompare[] = [
-  { id: 'prd', kicker: 'task 01', title: 'PRD: replace when the input is structured enough.', task: 'PRD', proprietary: { model: 'GPT-5.5', strengths: ['Strong when the product problem is vague, political, or full of hidden assumptions.'] }, openWeight: { model: 'GLM 5.2', strengths: ['Strong when the brief has user, goal, scope, constraints, and acceptance criteria.'] }, risk: 'shallow requirements or missed edge cases', demo: { title: 'Demo: PRD (GPT-5.5 vs GLM 5.2)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · PRD task' } },
-  { id: 'rfc', kicker: 'task 02', title: 'RFC: replace first drafts, be careful with final architecture.', task: 'RFC', proprietary: { model: 'Opus 4.8', strengths: ['Useful for ambiguous architecture, long context, and second-order consequences.'] }, openWeight: { model: 'Kimi K2.7', strengths: ['Good for draft alternatives, risk lists, migration notes, and decision tables.'] }, risk: 'weak constraints, generic tradeoffs, or missing rollback plan', demo: { title: 'Demo: RFC (Opus 4.8 vs Kimi K2.7)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · RFC task' } },
-  { id: 'code', kicker: 'task 03', title: 'Code generation: replacement works best with narrow scope.', task: 'Generate Code', proprietary: { model: 'GPT-5.5', strengths: ['Helpful for unfamiliar codebases, multi-file context, and complex dependency chains.'] }, openWeight: { model: 'Kimi K2.7', strengths: ['Good for scoped implementation, tests, refactors; K2.7 within ~5–15pts of GPT-5.5 on coding benches.'] }, risk: 'fake APIs, incomplete integration, or style drift', demo: { title: 'Demo: Code (GPT-5.5 vs Kimi K2.7)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · Code task' } },
-  { id: 'review', kicker: 'task 04', title: 'Code review: use open-weight models as checklist amplifiers.', task: 'Review Code', proprietary: { model: 'Opus 4.8', strengths: ['Better for subtle reasoning, security-sensitive changes, and complex behavioral regressions.'] }, openWeight: { model: 'GLM 5.2', strengths: ['Good for missing tests, obvious bugs, inconsistent patterns, and checklist-based review.'] }, risk: 'confident noise or missed deep design issues', demo: { title: 'Demo: Review (Opus 4.8 vs GLM 5.2)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · Review task' } },
+  {
+    id: 'prd',
+    kicker: 'task 01',
+    title: 'Compare PRD.',
+    task: 'PRD',
+    about: 'Turn a feature brief into a product requirements document — what to build, what to skip, and what done looks like.',
+    values: 'Scope · Non-goals · Edge cases · Acceptance criteria',
+    proprietary: { model: 'GPT-5.5' },
+    openWeight: { model: 'GLM 5.2' },
+    demo: { title: 'Demo: PRD (GPT-5.5 vs GLM 5.2)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · PRD task' },
+  },
+  {
+    id: 'rfc',
+    kicker: 'task 02',
+    title: 'Compare RFC.',
+    task: 'RFC',
+    about: 'Technical proposal before code ships — problem framing, architecture, and how to roll out safely.',
+    values: 'Problem statement · Data model · API flow · Failure modes · Architecture tradeoffs · Rollout plan',
+    proprietary: { model: 'Opus 4.8' },
+    openWeight: { model: 'Kimi K2.7' },
+    demo: { title: 'Demo: RFC (Opus 4.8 vs Kimi K2.7)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · RFC task' },
+  },
+  {
+    id: 'code',
+    kicker: 'task 03',
+    title: 'Compare Code.',
+    task: 'Generate Code',
+    about: 'Focused implementation from a clear spec — a diff that compiles, integrates, and matches the codebase.',
+    values: 'Correct APIs · Scoped changes · Test coverage · Style fit · No hallucinated dependencies',
+    proprietary: { model: 'GPT-5.5' },
+    openWeight: { model: 'Kimi K2.7' },
+    demo: { title: 'Demo: Code (GPT-5.5 vs Kimi K2.7)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · Code task' },
+  },
+  {
+    id: 'review',
+    kicker: 'task 04',
+    title: 'Compare Review.',
+    task: 'Review Code',
+    about: 'Pre-merge review of a diff — catch what a human reviewer would flag before it ships.',
+    values: 'Missing tests · Edge cases · Security gaps · Pattern consistency · Actionable feedback',
+    proprietary: { model: 'Opus 4.8' },
+    openWeight: { model: 'GLM 5.2' },
+    demo: { title: 'Demo: Review (Opus 4.8 vs GLM 5.2)', subtitle: 'Switch to live IDE / AstraFlow console', source: 'Live demo · Review task' },
+  },
 ];
 
-export const SDLC_MAP = FlowDiagramPage({ kicker: 'sdlc map', title: 'Use the same four tasks for every model.', steps: [
-  { label: '01 · PRD', detail: 'GPT-5.5 vs GLM 5.2' },
-  { label: '02 · RFC', detail: 'Opus 4.8 vs Kimi K2.7' },
-  { label: '03 · Code', detail: 'GPT-5.5 vs Kimi K2.7' },
-  { label: '04 · Review', detail: 'Opus 4.8 vs GLM 5.2' },
-]});
+const CompareMethodologyPage: Page = () => (
+  <Slide source="api-sg.umodelverse.ai/v1/ · swap model param only" pad="104px 120px 116px">
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Heading kicker="what we do" title="Four tasks. Two models. Same rubric." size="compact" />
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 24,
+          marginTop: 48,
+          flex: 1,
+          minHeight: 0,
+          alignContent: 'center',
+        }}
+      >
+        <Card style={{ padding: '28px 32px' }}>
+          <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>Four tasks</div>
+          <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>
+            PRD · RFC · Generate Code · Review Code — four fixed SDLC steps. Every model runs the same task.
+          </p>
+        </Card>
+        <Card style={{ padding: '28px 32px' }}>
+          <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>Model pairs</div>
+          <div style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>
+            {SDLC_COMPARES.map((compare) => (
+              <p key={compare.id} style={{ margin: compare.id === 'prd' ? 0 : '10px 0 0' }}>
+                {compare.task} → {compare.proprietary.model} vs {compare.openWeight.model}
+              </p>
+            ))}
+          </div>
+        </Card>
+        <Card style={{ padding: '28px 32px' }}>
+          <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>Same setup</div>
+          <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>
+            Identical prompt per task. Route both through AstraFlow — same base_url, same SDK, swap model param only.
+          </p>
+        </Card>
+        <Card style={{ padding: '28px 32px' }}>
+          <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>What we score</div>
+          <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>
+            Correctness · Completeness · Engineering depth · Hallucination risk · Human cleanup — 1–5 per task, per model.
+          </p>
+        </Card>
+      </div>
+    </div>
+  </Slide>
+);
 
-export const SDLC_COMPARE_PAGES: Page[] = SDLC_COMPARES.flatMap((c) => [
-  SideBySideCompare(c),
-  DemoPlaceholderPage(c.demo),
+export const SDLC_MAP = CompareMethodologyPage;
+
+export const SDLC_COMPARE_PAGES: Page[] = SDLC_COMPARES.flatMap((compare) => [
+  TaskComparePage(compare),
+  DemoPlaceholderPage(compare.demo),
 ]);

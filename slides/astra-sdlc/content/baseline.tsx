@@ -35,7 +35,7 @@ export const MEASURING_MODELS = HeadingGridPage({
   subtitle: 'Score the model you can ship with, not the one that sounds smartest.',
   cards: [
     { title: 'Tokens per second', body: 'Generation throughput — slow models compound across retries.' },
-    { title: 'Cost per task', body: 'Input + output + cache (+ reasoning) for one full pass — not list $/M alone.' },
+    { title: 'Cost per task', body: 'Non-cache input + cache + output + reasoning for one workflow — AA Intelligence Index run, not list $/M.' },
     { title: 'Tokens per task', body: 'Total token burn per workflow — efficiency matters at volume.' },
     { title: 'Capability fit', body: 'Task match: reasoning, coding, agent loops, structured output.' },
     { title: 'Vision input / output', body: 'Multimodal needs — screenshots, diagrams, UI mocks. Flag when an open-weight route lacks vision.' },
@@ -99,18 +99,19 @@ export const ROUTING_PATTERNS = HeadingGridPage({
 
 export const PRICING_TABLE = PricingTablePage({
   title: 'Compare cost per workflow, not only token price.',
-  formula: 'input + output + cache + reasoning',
+  formula: 'non-cache input + cache + output + reasoning',
   mode: 'task-cost',
-  anchorNote: 'Same AA baseline as slide 4 — Intelligence vs Cost scatter · Cost per Intelligence Index task. Stacks input, output, cache, and reasoning — not list $/M.',
-  source: 'artificialanalysis.ai · Intelligence vs Cost · Jul 2026',
+  costColumnLabel: 'Index $',
+  anchorNote: 'Artificial Analysis · Cost to Run Intelligence Index — one standardized eval run. Stacks non-cache input, cache read/write, reasoning, and output. Not list $/M.',
+  source: 'artificialanalysis.ai · Price and Cost · Jul 2026',
   rows: [
-    { model: 'MiMo V2.5 Pro', costPerTask: '~$0.03', note: 'Open-weight volume anchor' },
-    { model: 'DeepSeek V4 Pro (max)', costPerTask: '~$0.045', note: 'Cost-efficiency anchor' },
-    { model: 'Kimi K2.7', costPerTask: '~$0.35', note: 'Open-weight code/RFC · K2.6 on AA scatter' },
-    { model: 'GLM 5.2 (max)', costPerTask: '~$0.45', note: 'Open-weight PRD/review' },
-    { model: 'GPT-5.5 (xhigh)', costPerTask: '~$1.20', note: 'Frontier baseline' },
-    { model: 'Opus 4.8 (max)', costPerTask: '~$2.50', note: 'Frontier reasoning' },
-    { model: 'Fable 5 (fallback)', costPerTask: '~$2.80', note: 'Premium ceiling' },
+    { model: 'MiMo V2.5 Pro', costPerTask: '$98', note: 'Open-weight volume anchor' },
+    { model: 'DeepSeek V4 Pro (max)', costPerTask: '$176', note: 'Cost-efficiency anchor' },
+    { model: 'GLM 5.2 (max)', costPerTask: '$820', note: 'Open-weight PRD/review' },
+    { model: 'Kimi K2.7', costPerTask: '~$852', note: 'Open-weight code/RFC · K2.6 on AA chart' },
+    { model: 'GPT-5.5 (xhigh)', costPerTask: '$2,630', note: 'Frontier baseline' },
+    { model: 'Opus 4.8 (max)', costPerTask: '$3,753', note: 'Frontier reasoning' },
+    { model: 'Fable 5 (fallback)', costPerTask: '$5,631', note: 'Premium ceiling' },
   ],
 });
 

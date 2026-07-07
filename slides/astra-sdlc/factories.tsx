@@ -146,16 +146,17 @@ export const ImageBenchmarkPage = ({ title, image, callouts, footerSource, footn
   return PageFn;
 };
 
-export const PricingTablePage = ({ title, formula, rows, anchorNote, source, mode = 'token-rate' }: {
+export const PricingTablePage = ({ title, formula, rows, anchorNote, source, mode = 'token-rate', costColumnLabel = '$/task' }: {
   title: string;
   formula: string;
   rows: { model: string; input?: string; output?: string; costPerTask?: string; note?: string }[];
   anchorNote: string;
   source?: string;
   mode?: 'token-rate' | 'task-cost';
+  costColumnLabel?: string;
 }) => {
   const headers = mode === 'task-cost'
-    ? (['Model', '$/task', 'Note'] as const)
+    ? (['Model', costColumnLabel, 'Note'] as const)
     : (['Model', 'In $/M', 'Out $/M', 'Note'] as const);
   const columns = mode === 'task-cost' ? '1.4fr 0.7fr 1.3fr' : '1.4fr 0.8fr 0.8fr 1fr';
   const PageFn: Page = () => (
@@ -196,21 +197,37 @@ export const PricingTablePage = ({ title, formula, rows, anchorNote, source, mod
   return PageFn;
 };
 
-export const SideBySideCompare = (d: SdlcCompare) => {
+export const TaskComparePage = (d: SdlcCompare) => {
   const PageFn: Page = () => (
-    <Slide>
-      <Heading kicker={d.kicker} title={d.title} />
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr 1fr', gap: 20, marginTop: 56 }}>
-        <Card style={{ padding: 24 }}><div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>SDLC TASK</div><div style={{ marginTop: 16, fontSize: 40, fontWeight: 600 }}>{d.task}</div></Card>
-        <Card style={{ padding: 24 }}>
-          <div style={{ fontFamily: font.mono, fontSize: 18, color: c.amber }}>{d.proprietary.model}</div>
-          {d.proprietary.strengths.map((s) => <p key={s} style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.34, color: c.smoke }}>{s}</p>)}
-        </Card>
-        <Card style={{ padding: 24 }}>
-          <div style={{ fontFamily: font.mono, fontSize: 18, color: c.green }}>{d.openWeight.model}</div>
-          {d.openWeight.strengths.map((s) => <p key={s} style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.34, color: c.smoke }}>{s}</p>)}
-          <p style={{ marginTop: 20, color: c.red, fontSize: 22 }}>Risk: {d.risk}</p>
-        </Card>
+    <Slide source={`${d.proprietary.model} vs ${d.openWeight.model} · same prompt · swap model param`} pad="104px 120px 116px">
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Heading kicker={d.kicker} title={d.title} size="compact" />
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gap: 24,
+            marginTop: 48,
+            flex: 1,
+            minHeight: 0,
+            alignContent: 'center',
+          }}
+        >
+          <Card style={{ padding: '28px 32px' }}>
+            <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>What it is</div>
+            <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>{d.about}</p>
+          </Card>
+          <Card style={{ padding: '28px 32px' }}>
+            <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>What we value</div>
+            <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>{d.values}</p>
+          </Card>
+          <Card style={{ padding: '28px 32px' }}>
+            <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>Models</div>
+            <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>
+              {d.proprietary.model} vs {d.openWeight.model} — same prompt, route through AstraFlow.
+            </p>
+          </Card>
+        </div>
       </div>
     </Slide>
   );

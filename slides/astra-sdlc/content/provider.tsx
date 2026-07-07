@@ -1,20 +1,50 @@
 import type { Page } from '@open-slide/core';
-import { FlowDiagramPage } from '../factories';
+import { Card, Heading, Slide } from '../primitives';
+import { c } from '../tokens';
 
-export const ASTRAFLOW_ACCESS = FlowDiagramPage({
-  kicker: 'provider layer',
-  title: 'AstraFlow is the access layer, not the SDLC workflow.',
-  steps: [
-    { label: '01', detail: 'IDE, agent, CLI, app' },
-    { label: '02', detail: 'AstraFlow gateway' },
-    { label: '03', detail: 'OpenAI-compatible /v1/chat/completions' },
-    { label: '04', detail: 'Kimi, Qwen, GLM, MiMo, DeepSeek catalog' },
-  ],
-  source: 'UCloud ModelVerse · api-sg.umodelverse.ai for SEA',
-  note: 'Swap model via model param only — same base_url, same SDK. Like OpenRouter for regional MaaS.',
-  callout: {
-    title: 'benchmark context',
-    body: 'Open weights are now within 6–8% of frontier quality on daily engineering benchmarks, while costing 5–12× less.',
-    footnote: 'Reference: Kimi K2.7, Qwen 3.7 Max, GLM 5.2, MiMo V2.5 vs proprietary baselines. Verify live availability.',
+const BENEFIT_CARDS = [
+  {
+    title: 'Model freedom',
+    body: 'Open-weight to frontier in one catalog — Kimi · GLM · Qwen · MiMo · DeepSeek through Opus · GPT · Sonnet. Swap model param only.',
   },
-});
+  {
+    title: 'Lower regional cost',
+    body: 'Regional MaaS via api-sg.umodelverse.ai — competitive vs juggling multiple direct provider accounts for the same eval run.',
+  },
+  {
+    title: 'You control the route',
+    body: 'Pick model per task, cap spend, verify live IDs + pricing before shipping. GET /v1/models is your pre-flight check.',
+  },
+  {
+    title: 'Coding and agents',
+    body: 'Not only IDE copilots — CLI tools, autonomous agent loops, and production app backends on the same base_url and SDK.',
+  },
+] as const;
+
+const ProviderPayoffPage: Page = () => (
+  <Slide source="api-sg.umodelverse.ai/v1/ · GET /v1/models" pad="104px 120px 116px">
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Heading kicker="provider layer" title="Why AstraFlow." size="compact" />
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 24,
+          marginTop: 48,
+          flex: 1,
+          minHeight: 0,
+          alignContent: 'center',
+        }}
+      >
+        {BENEFIT_CARDS.map((card) => (
+          <Card key={card.title} style={{ padding: '28px 32px' }}>
+            <div style={{ fontSize: 34, fontWeight: 600, lineHeight: 1.2 }}>{card.title}</div>
+            <p style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.4, color: c.smoke }}>{card.body}</p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </Slide>
+);
+
+export const ASTRAFLOW_ACCESS = ProviderPayoffPage;
