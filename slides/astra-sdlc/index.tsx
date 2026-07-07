@@ -5,7 +5,7 @@ import { DECK_ORDER } from './deck';
 export const design: DesignSystem = {
   palette: { bg: '#fdfcfc', text: '#000000', accent: '#0447ff' },
   fonts: {
-    display: '"Plus Jakarta Sans", "Inter", system-ui, sans-serif',
+    display: '"Inter", system-ui, -apple-system, sans-serif',
     body: '"Inter", system-ui, -apple-system, sans-serif',
   },
   typeScale: { hero: 120, body: 36 },

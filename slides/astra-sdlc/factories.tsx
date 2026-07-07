@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { Page } from '@open-slide/core';
 import { c, font } from './tokens';
-import { BigRule, Card, Hairline, Heading, PillLabel, Slide } from './primitives';
+import { BigRule, Card, GradientSphere, Hairline, Heading, PillLabel, Slide } from './primitives';
 import type { CoverageExample, CoverageRow, FlowStep, GridCard, SdlcCompare } from './types';
 
 export const HeroPage = ({ kicker, title, subtitle, source, center, aside }: { kicker?: string; title: string; subtitle?: string; source?: string; center?: boolean; aside?: ReactNode }) => {
@@ -11,7 +11,7 @@ export const HeroPage = ({ kicker, title, subtitle, source, center, aside }: { k
         <div style={{ height: '100%', display: 'grid', placeItems: 'center', textAlign: 'center' }}>
           <div>
             {kicker && <PillLabel>{kicker}</PillLabel>}
-            <h1 style={{ margin: '36px auto 0', maxWidth: 1280, fontFamily: 'var(--osd-font-display)', fontSize: center ? 104 : 'var(--osd-size-hero)', lineHeight: 1.04, fontWeight: 600, letterSpacing: '-0.02em' }}>{title}</h1>
+            <h1 style={{ margin: '36px auto 0', maxWidth: 1280, fontFamily: 'var(--osd-font-display)', fontSize: center ? 104 : 'var(--osd-size-hero)', lineHeight: 1.04, fontWeight: 300, letterSpacing: '-0.02em' }}>{title}</h1>
             {subtitle && <p style={{ margin: '40px auto 0', maxWidth: 1120, color: c.smoke, fontSize: 38, lineHeight: 1.36 }}>{subtitle}</p>}
           </div>
         </div>
@@ -19,7 +19,7 @@ export const HeroPage = ({ kicker, title, subtitle, source, center, aside }: { k
         <div style={{ display: 'grid', gridTemplateColumns: aside ? '1.05fr 0.95fr' : '1fr', gap: 70, height: '100%', alignItems: 'center' }}>
           <div>
             {kicker && <PillLabel>{kicker}</PillLabel>}
-            <h1 style={{ margin: '32px 0 0', fontFamily: 'var(--osd-font-display)', fontSize: 'var(--osd-size-hero)', lineHeight: 0.98, fontWeight: 600, letterSpacing: '-0.02em', maxWidth: 980 }}>{title}</h1>
+            <h1 style={{ margin: '32px 0 0', fontFamily: 'var(--osd-font-display)', fontSize: 'var(--osd-size-hero)', lineHeight: 0.98, fontWeight: 300, letterSpacing: '-0.02em', maxWidth: 980 }}>{title}</h1>
             {subtitle && <p style={{ margin: '36px 0 0', color: c.smoke, fontSize: 40, lineHeight: 1.34, maxWidth: 920 }}>{subtitle}</p>}
           </div>
           {aside}
@@ -30,11 +30,12 @@ export const HeroPage = ({ kicker, title, subtitle, source, center, aside }: { k
   return PageFn;
 };
 
-export const HeadingGridPage = ({ kicker, title, subtitle, cards, columns = 3, source, footnote, rule }: { kicker?: string; title: string; subtitle?: string; cards: GridCard[]; columns?: number; source?: string; footnote?: string; rule?: string }) => {
+export const HeadingGridPage = ({ kicker, title, subtitle, cards, columns = 3, source, footnote, rule, hairline }: { kicker?: string; title: string; subtitle?: string; cards: GridCard[]; columns?: number; source?: string; footnote?: string; rule?: string; hairline?: boolean }) => {
   const PageFn: Page = () => (
     <Slide source={source}>
       <Heading kicker={kicker} title={title} subtitle={subtitle} />
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: 24, marginTop: 56 }}>
+      {hairline && <div style={{ marginTop: 36 }}><Hairline /></div>}
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: 24, marginTop: hairline ? 36 : 56 }}>
         {cards.map((card) => (
           <Card key={card.title}>
             <div style={{ fontSize: 36, fontWeight: 600 }}>{card.title}</div>
@@ -49,7 +50,7 @@ export const HeadingGridPage = ({ kicker, title, subtitle, cards, columns = 3, s
   return PageFn;
 };
 
-export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note }: { kicker?: string; title: string; subtitle?: string; steps: FlowStep[]; source?: string; note?: string }) => {
+export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note, callout }: { kicker?: string; title: string; subtitle?: string; steps: FlowStep[]; source?: string; note?: string; callout?: { title: string; body: string; footnote?: string } }) => {
   const PageFn: Page = () => (
     <Slide source={source}>
       <Heading kicker={kicker} title={title} subtitle={subtitle} />
@@ -65,6 +66,21 @@ export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note }
         ))}
       </div>
       {note && <p style={{ margin: '64px auto 0', maxWidth: 1180, textAlign: 'center', color: c.smoke, fontSize: 34, lineHeight: 1.38 }}>{note}</p>}
+      {callout && (
+        <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+          <Card style={{ padding: 28 }}>
+            <div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>{callout.title}</div>
+            <div style={{ marginTop: 14, fontSize: 28, lineHeight: 1.3, fontWeight: 600 }}>{callout.body}</div>
+            {callout.footnote && <p style={{ marginTop: 16, color: c.ash, fontSize: 22 }}>{callout.footnote}</p>}
+          </Card>
+          <Card style={{ padding: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', background: c.ink2, color: c.bg }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontFamily: font.mono, fontSize: 18, color: c.ash }}>GET /v1/models</div>
+              <div style={{ marginTop: 12, fontSize: 28, lineHeight: 1.3, fontWeight: 500 }}>Verify live model IDs and pricing before routing.</div>
+            </div>
+          </Card>
+        </div>
+      )}
     </Slide>
   );
   return PageFn;
@@ -90,27 +106,41 @@ export const SplitImageCalloutPage = ({ title, image, rows, source }: { title: s
   return PageFn;
 };
 
-export const ImageBenchmarkPage = ({ title, image, callouts, footerSource, footnote, narrative }: { title: string; image: string; callouts?: { label: string; items: string[] }[]; footerSource: string; footnote?: string; narrative?: string[] }) => {
+export const ImageBenchmarkPage = ({ title, image, callouts, footerSource, footnote, narrative, kicker, subtitle }: { title: string; image: string; callouts?: { label: string; items: string[] }[]; footerSource: string; footnote?: string; narrative?: string[]; kicker?: string; subtitle?: string }) => {
+  const bottomItems = callouts ?? (narrative?.map((line, i) => ({ label: String(i + 1).padStart(2, '0'), items: [line] })) ?? []);
+  const bottomColumns = Math.min(Math.max(bottomItems.length, 1), 3);
+  const hasBottom = bottomItems.length > 0;
   const PageFn: Page = () => (
     <Slide source={footerSource}>
-      <Heading title={title} />
-      <img src={image} alt="" style={{ width: '100%', maxHeight: 520, objectFit: 'contain', marginTop: 32, borderRadius: 12 }} />
-      {(callouts || narrative) && (
-        <div style={{ display: 'grid', gridTemplateColumns: callouts ? '1fr 1fr' : '1fr', gap: 20, marginTop: 24 }}>
-          {callouts?.map((co) => (
-            <Card key={co.label} style={{ padding: 20 }}>
-              <div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>{co.label}</div>
-              <div style={{ marginTop: 10, fontSize: 22, lineHeight: 1.35 }}>{co.items.join(' · ')}</div>
-            </Card>
-          ))}
-          {narrative && (
-            <Card style={{ padding: 20 }}>
-              {narrative.map((n) => <div key={n} style={{ fontSize: 22, lineHeight: 1.4, color: c.smoke, marginTop: 8 }}>{n}</div>)}
-            </Card>
-          )}
-        </div>
-      )}
-      {footnote && <p style={{ marginTop: 20, color: c.ash, fontSize: 22 }}>{footnote}</p>}
+      <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column', paddingBottom: hasBottom ? 40 : 0 }}>
+        <Heading kicker={kicker} title={title} subtitle={subtitle} size={hasBottom ? 'compact' : 'default'} />
+        <img
+          src={image}
+          alt=""
+          style={{
+            width: '100%',
+            flex: hasBottom ? 1 : undefined,
+            minHeight: hasBottom ? 0 : undefined,
+            maxHeight: hasBottom ? 340 : 520,
+            objectFit: 'contain',
+            marginTop: hasBottom ? 16 : 24,
+            borderRadius: 12,
+            flexShrink: hasBottom ? undefined : 0,
+          }}
+        />
+        {hasBottom && (
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${bottomColumns}, 1fr)`, gap: 12, marginTop: 14, flexShrink: 0 }}>
+            {bottomItems.map((co) => (
+              <Card key={co.label} style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontFamily: font.mono, fontSize: 14, color: c.smoke, textTransform: 'lowercase' }}>{co.label}</div>
+                <div style={{ marginTop: 8, fontSize: 18, lineHeight: 1.35, fontWeight: 500 }}>{co.items.join(' · ')}</div>
+              </Card>
+            ))}
+          </div>
+        )}
+        {footnote && <p style={{ margin: '10px 0 0', color: c.ash, fontSize: 18, lineHeight: 1.35, flexShrink: 0 }}>{footnote}</p>}
+        {!hasBottom && <GradientSphere size={120} style={{ position: 'absolute', bottom: -20, right: -20, opacity: 0.6 }} />}
+      </div>
     </Slide>
   );
   return PageFn;
@@ -296,21 +326,48 @@ export const HandsOnPage = ({ brief, prompts }: { brief: string; prompts: { titl
 export const ProblemPage = () => {
   const PageFn: Page = () => (
     <Slide>
-      <Heading kicker="problem" title="Teams use premium models as the default hammer." />
-      <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 40, marginTop: 52 }}>
-        <BigRule>GPT and Opus are strong defaults, but defaulting every SDLC task to them hides the real cost curve.</BigRule>
-        <Card style={{ padding: 32 }}>
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Heading kicker="why open weight" title="Open weight for cost efficiency and freedom." subtitle="Four reasons routing beats one premium default — cost, freedom, intelligence, and supply resilience." />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 20, marginTop: 28, flex: 1, minHeight: 0 }}>
           {[
-            ['Same model for every task', 'PRDs, RFCs, code, tests, and review all route to the premium baseline.'],
-            ['Token price is only part of it', 'Long context, retries, and human correction dominate total cost.'],
-            ['No quality bar', 'Teams often compare vibes instead of acceptance criteria.'],
-          ].map(([t, b]) => (
-            <div key={t} style={{ padding: '16px 0', borderBottom: `1px solid ${c.stone}` }}>
-              <div style={{ fontSize: 28, fontWeight: 600 }}>{t}</div>
-              <div style={{ marginTop: 8, color: c.smoke, fontSize: 24, lineHeight: 1.32 }}>{b}</div>
-            </div>
+            {
+              title: 'Cost',
+              body: 'Premium defaults inflate every SDLC step — same task, frontier price.',
+              solve: 'Open weights cut the same task 5–20× when the quality bar is met.',
+            },
+            {
+              title: 'Freedom',
+              body: 'One provider controls pricing, availability, and roadmaps.',
+              solve: 'AstraFlow keeps choice open — one API, swap models without rewriting your stack.',
+            },
+            {
+              title: 'Intelligence',
+              body: 'Teams over-buy frontier intelligence for routine engineering work.',
+              solve: 'High-intelligence open weights within an 8–12% gap on daily benchmarks.',
+            },
+            {
+              title: 'Government Interference',
+              body: 'Frontier models can be suspended or gate-kept overnight.',
+              solve: 'Open weights are currently exempt — harder to unilaterally switch off.',
+            },
+          ].map((p) => (
+            <Card key={p.title} style={{ padding: '22px 24px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
+              <div style={{ fontSize: 28, fontWeight: 600, lineHeight: 1.2, minHeight: 68 }}>{p.title}</div>
+              <p style={{ margin: '8px 0 0', fontSize: 22, lineHeight: 1.38, color: c.smoke, flex: 1 }}>{p.body}</p>
+              <div style={{ marginTop: 'auto', paddingTop: 14 }}>
+                <div style={{ margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ flex: 1, height: 1, background: c.stone }} />
+                  <div style={{ color: c.violet, fontSize: 18 }}>→</div>
+                  <div style={{ flex: 1, height: 1, background: c.stone }} />
+                </div>
+                <p style={{ margin: 0, fontSize: 22, lineHeight: 1.38, fontWeight: 500 }}>{p.solve}</p>
+              </div>
+            </Card>
           ))}
-        </Card>
+        </div>
+        <div style={{ marginTop: 20, flexShrink: 0 }}>
+          <BigRule style={{ padding: '24px 32px', fontSize: 34, lineHeight: 1.28 }}>Route open weight when the bar is met — efficiency, freedom, intelligence, and resilience.</BigRule>
+        </div>
       </div>
     </Slide>
   );

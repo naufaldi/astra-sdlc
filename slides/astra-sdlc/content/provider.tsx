@@ -7,12 +7,8 @@ export const PROVIDER_PAGES: Page[] = [
     { label: '01', detail: 'IDE, agent, CLI, app' },
     { label: '02', detail: 'AstraFlow gateway' },
     { label: '03', detail: 'OpenAI-compatible /v1/chat/completions' },
-    { label: '04', detail: 'Model catalog + SDLC output' },
-  ], source: 'UCloud ModelVerse · api-sg.umodelverse.ai for SEA', note: 'Swap model via model param only — same base_url, same SDK. Like OpenRouter for regional MaaS.' }),
-  HeadingGridPage({ kicker: 'open-weight thesis', title: 'Open-weight models become useful when they pass a task bar.', subtitle: 'They are not magic. They are valuable when quality is good enough and cost is lower.', cards: [
-    { title: 'Why they matter', body: 'More provider options, lower per-task cost, less vendor lock-in, room for routing experiments.' },
-    { title: 'Where to be careful', body: 'Quality varies by task. A cheap model that needs many retries may be expensive in human time.' },
-  ], columns: 2 }),
+    { label: '04', detail: 'Kimi, Qwen, GLM, MiMo, DeepSeek catalog' },
+  ], source: 'UCloud ModelVerse · api-sg.umodelverse.ai for SEA', note: 'Swap model via model param only — same base_url, same SDK. Like OpenRouter for regional MaaS.', callout: { title: 'benchmark context', body: 'Open weights are now within 6–8% of frontier quality on daily engineering benchmarks, while costing 5–12× less.', footnote: 'Reference: Kimi K2.7, Qwen 3.7 Max, GLM 5.2, MiMo V2.5 vs proprietary baselines. Verify live availability.' } }),
   HeadingGridPage({ kicker: 'definition', title: 'Replace does not mean “win every benchmark.”', cards: [
     { title: 'Task-specific', body: 'PRD quality is not the same as code review quality.' },
     { title: 'Human-reviewed', body: 'The engineer still owns the decision and accepts the risk.' },

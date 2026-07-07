@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 export const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap';
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap';
 
 if (typeof document !== 'undefined' && !document.getElementById('osd-webfont')) {
   const link = document.createElement('link');
