@@ -243,21 +243,54 @@ export const HandsOnPage = ({ brief, prompts }: { brief: string; prompts: { titl
   return PageFn;
 };
 
-export const ProblemPage = () => {
+type ConstraintColumn = { label: string; items: GridCard[] };
+
+export const ConstraintsShiftPage = ({ kicker, title, subtitle, left, right, rule }: {
+  kicker?: string;
+  title: string;
+  subtitle?: string;
+  left: ConstraintColumn;
+  right: ConstraintColumn;
+  rule: string;
+}) => {
   const PageFn: Page = () => (
     <Slide>
-      <Heading kicker="problem" title="Teams use premium models as the default hammer." />
+      <Heading kicker={kicker} title={title} subtitle={subtitle} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28, marginTop: 48 }}>
+        {[left, right].map((col) => (
+          <Card key={col.label} style={{ padding: 28 }}>
+            <div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>{col.label}</div>
+            {col.items.map((item) => (
+              <div key={item.title} style={{ padding: '14px 0', borderBottom: `1px solid ${c.stone}` }}>
+                <div style={{ fontSize: 26, fontWeight: 600 }}>{item.title}</div>
+                <div style={{ marginTop: 6, color: c.smoke, fontSize: 22, lineHeight: 1.32 }}>{item.body}</div>
+              </div>
+            ))}
+          </Card>
+        ))}
+      </div>
+      <div style={{ marginTop: 36 }}><BigRule>{rule}</BigRule></div>
+    </Slide>
+  );
+  return PageFn;
+};
+
+export const ProblemPage = ({ kicker, title, rule, items }: {
+  kicker?: string;
+  title: string;
+  rule: string;
+  items: GridCard[];
+}) => {
+  const PageFn: Page = () => (
+    <Slide>
+      <Heading kicker={kicker} title={title} />
       <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 40, marginTop: 52 }}>
-        <BigRule>GPT and Opus are strong defaults, but defaulting every SDLC task to them hides the real cost curve.</BigRule>
+        <BigRule>{rule}</BigRule>
         <Card style={{ padding: 32 }}>
-          {[
-            ['Same model for every task', 'PRDs, RFCs, code, tests, and review all route to the premium baseline.'],
-            ['Token price is only part of it', 'Long context, retries, and human correction dominate total cost.'],
-            ['No quality bar', 'Teams often compare vibes instead of acceptance criteria.'],
-          ].map(([t, b]) => (
-            <div key={t} style={{ padding: '16px 0', borderBottom: `1px solid ${c.stone}` }}>
-              <div style={{ fontSize: 28, fontWeight: 600 }}>{t}</div>
-              <div style={{ marginTop: 8, color: c.smoke, fontSize: 24, lineHeight: 1.32 }}>{b}</div>
+          {items.map((item) => (
+            <div key={item.title} style={{ padding: '16px 0', borderBottom: `1px solid ${c.stone}` }}>
+              <div style={{ fontSize: 28, fontWeight: 600 }}>{item.title}</div>
+              <div style={{ marginTop: 8, color: c.smoke, fontSize: 24, lineHeight: 1.32 }}>{item.body}</div>
             </div>
           ))}
         </Card>
