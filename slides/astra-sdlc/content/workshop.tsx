@@ -23,8 +23,8 @@ export const WORKSHOP_PAGES: Page[] = [
     { title: 'High blast radius', body: 'Keep human review strict. Consider premium model as second reviewer.' },
   ]}),
   LOGISTICS,
-  HandsOnPage({ brief: 'Admin can create vouchers with expiry, usage limit, eligibility, and checkout validation. Prevent double usage and explain failed redemption clearly.', prompts: [
-    { title: 'prd prompt', body: 'Turn this feature brief into a PRD with scope, non-goals, edge cases, and acceptance criteria. Compare GPT-5.5 vs GLM 5.2.' },
+  HandsOnPage({ brief: 'User: admin. Goal: create vouchers with expiry, usage limit, eligibility, and checkout validation. Constraints: prevent double usage; explain failed redemption clearly.', prompts: [
+    { title: 'prd prompt', body: 'Use the same prompt for both models. Turn this brief into a PRD with: problem/goal, scope, non-goals, edge cases, acceptance criteria (Given/When/Then), open questions. Run GPT-5.5 then zai-org/glm-5 — mark the coverage checklist for each output.' },
     { title: 'rfc prompt', body: 'Propose an RFC covering data model, API flow, validation logic, failure modes, and rollout. Compare Opus 4.8 vs Kimi K2.7.' },
     { title: 'code prompt', body: 'Generate focused code changes for checkout validation. Compare GPT-5.5 vs Kimi K2.7.' },
     { title: 'review prompt', body: 'Review the generated diff for missing tests, edge cases, and security gaps. Compare Opus 4.8 vs GLM 5.2.' },
@@ -36,6 +36,6 @@ export const WORKSHOP_PAGES: Page[] = [
     ['Engineering depth', '1-5', '1-5', '1-5', '1-5'],
     ['Hallucination risk', '1-5', '1-5', '1-5', '1-5'],
     ['Human cleanup', '1-5', '1-5', '1-5', '1-5'],
-  ]}, footnote: 'Print or screenshot this slide for hands-on. Score each model per task column — cheapest passing model wins.' }),
+  ]}, footnote: 'Print or screenshot this slide for hands-on. Score each model per task column — cheapest passing model wins. Completeness = coverage checklist rows passed.' }),
   HeroPage({ kicker: 'closing principle', title: 'Senior engineers choose the cheapest model that passes the bar.', subtitle: 'Not one smartest model. A routing system: task, quality bar, model candidate, cost check, human review.', source: 'Use live pricing and provider availability before final recommendation', center: true }),
 ];

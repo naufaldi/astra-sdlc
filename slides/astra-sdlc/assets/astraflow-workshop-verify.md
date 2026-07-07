@@ -42,13 +42,20 @@ Verify live $/M at: https://astraflow.ucloud.cn/docs/modelverse/price
 
 Update slide 13 rows if numbers shifted.
 
-## 4. Demo prompts (same text as slide 26 hands-on)
+## 4. Demo prompts (same text as slide 28 hands-on)
 
-- PRD: voucher feature → PRD, GPT-5.5 vs GLM 5.2
+- PRD: voucher feature → PRD, GPT-5.5 vs GLM 5.2 — mark coverage checklist (slide 17) for each output
 - RFC: data model + rollout, Opus 4.8 vs Kimi K2.7
 - Code: checkout validation diff, GPT-5.5 vs Kimi K2.7
 - Review: diff for tests/security, Opus 4.8 vs GLM 5.2
 - Debug: paste failing test/stack trace, iterate until green
+
+### PRD live demo steps (slide 19)
+
+1. Paste voucher brief + PRD prompt (slide 28)
+2. Generate with GPT-5.5 → mark coverage checklist (slide 17)
+3. Same prompt, swap to `zai-org/glm-5` → mark checklist again
+4. Compare rows side-by-side → score PRD column (slide 29) → discuss which passed
 
 ## 5. Run of show (150 min)
 
@@ -57,6 +64,6 @@ Update slide 13 rows if numbers shifted.
 | Welcome + framing | 15 | 1–3 | Laptops ready |
 | AstraFlow + thesis | 20 | 4–7 | Live API swap on slide 4 |
 | Evidence (compressed) | 15 | 8–11, 13–14 | Skip slide 12 if tight |
-| Compares + demos | 45 | 15–23 | Second screen |
-| Hands-on | 40 | 24–27 | Scorecard on slide 27 |
-| Q&A + closing | 15 | 28 | |
+| PRD block + compares + demos | 45 | 15–25 | Slides 16–19 = protocol, checklist, PRD compare, PRD demo |
+| Hands-on | 40 | 26–29 | Scorecard on slide 29 |
+| Q&A + closing | 15 | 30 | |

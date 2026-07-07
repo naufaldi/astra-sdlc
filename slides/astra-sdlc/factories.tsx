@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { Page } from '@open-slide/core';
 import { c, font } from './tokens';
 import { BigRule, Card, Hairline, Heading, PillLabel, Slide } from './primitives';
-import type { FlowStep, GridCard, SdlcCompare } from './types';
+import type { CoverageExample, CoverageRow, FlowStep, GridCard, SdlcCompare } from './types';
 
 export const HeroPage = ({ kicker, title, subtitle, source, center, aside }: { kicker?: string; title: string; subtitle?: string; source?: string; center?: boolean; aside?: ReactNode }) => {
   const PageFn: Page = () => (
@@ -146,8 +146,8 @@ export const PricingTablePage = ({ title, formula, rows, anchorNote, source }: {
 export const SideBySideCompare = (d: SdlcCompare) => {
   const PageFn: Page = () => (
     <Slide>
-      <Heading kicker={d.kicker} title={d.title} />
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr 1fr', gap: 20, marginTop: 56 }}>
+      <Heading kicker={d.kicker} title={d.title} subtitle={d.subtitle} />
+      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr 1fr', gap: 20, marginTop: d.subtitle ? 40 : 56 }}>
         <Card style={{ padding: 24 }}><div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>SDLC TASK</div><div style={{ marginTop: 16, fontSize: 40, fontWeight: 600 }}>{d.task}</div></Card>
         <Card style={{ padding: 24 }}>
           <div style={{ fontFamily: font.mono, fontSize: 18, color: c.amber }}>{d.proprietary.model}</div>
@@ -156,9 +156,14 @@ export const SideBySideCompare = (d: SdlcCompare) => {
         <Card style={{ padding: 24 }}>
           <div style={{ fontFamily: font.mono, fontSize: 18, color: c.green }}>{d.openWeight.model}</div>
           {d.openWeight.strengths.map((s) => <p key={s} style={{ margin: '14px 0 0', fontSize: 26, lineHeight: 1.34, color: c.smoke }}>{s}</p>)}
-          <p style={{ marginTop: 20, color: c.red, fontSize: 22 }}>Risk: {d.risk}</p>
         </Card>
       </div>
+      {(d.compareNote || d.risk) && (
+        <div style={{ marginTop: 28, display: 'grid', gap: 16 }}>
+          {d.compareNote && <p style={{ color: c.smoke, fontSize: 26, lineHeight: 1.38 }}>{d.compareNote}</p>}
+          {d.risk && <p style={{ color: c.red, fontSize: 22 }}>Risk: {d.risk}</p>}
+        </div>
+      )}
     </Slide>
   );
   return PageFn;
@@ -166,15 +171,60 @@ export const SideBySideCompare = (d: SdlcCompare) => {
 
 export const DemoPlaceholderPage = (d: SdlcCompare['demo']) => {
   const PageFn: Page = () => (
-    <Slide source={d.source} pad="120px">
+    <Slide source={d.source} pad={d.steps ? '88px 120px 96px' : '120px'}>
       <div style={{ height: '100%', display: 'grid', placeItems: 'center', textAlign: 'center' }}>
-        <div>
+        <div style={{ maxWidth: 1280 }}>
           <PillLabel>live demo</PillLabel>
-          <h1 style={{ margin: '40px 0 0', fontFamily: 'var(--osd-font-display)', fontSize: 104, fontWeight: 600, letterSpacing: '-0.02em' }}>{d.title}</h1>
-          <p style={{ margin: '36px 0 0', color: c.smoke, fontSize: 38 }}>{d.subtitle}</p>
-          <p style={{ margin: '28px 0 0', fontFamily: font.mono, color: c.ash, fontSize: 24 }}>Swap model via AstraFlow model param</p>
+          <h1 style={{ margin: '32px 0 0', fontFamily: 'var(--osd-font-display)', fontSize: d.steps ? 88 : 104, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.04 }}>{d.title}</h1>
+          <p style={{ margin: '28px 0 0', color: c.smoke, fontSize: 36, lineHeight: 1.34 }}>{d.subtitle}</p>
+          {d.steps ? (
+            <div style={{ marginTop: 36, textAlign: 'left', display: 'grid', gap: 14 }}>
+              {d.steps.map((step, i) => (
+                <div key={step} style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: 16, alignItems: 'start' }}>
+                  <div style={{ fontFamily: font.mono, fontSize: 22, fontWeight: 600, color: c.ash }}>{i + 1}.</div>
+                  <div style={{ fontSize: 26, lineHeight: 1.36, color: c.smoke }}>{step}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p style={{ margin: '28px 0 0', fontFamily: font.mono, color: c.ash, fontSize: 24 }}>Swap model via AstraFlow model param</p>
+          )}
         </div>
       </div>
+    </Slide>
+  );
+  return PageFn;
+};
+
+export const PrdCoverageChecklistPage = ({ rows, examples, rule, footnote }: { rows: CoverageRow[]; examples: CoverageExample[]; rule: string; footnote?: string }) => {
+  const PageFn: Page = () => (
+    <Slide>
+      <Heading kicker="task 01 · judge the result" title="Compare PRD outputs — what did each model actually cover?" />
+      <Card style={{ padding: 24, marginTop: 40 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.4fr 0.55fr 0.55fr', gap: 10, fontFamily: font.mono, fontSize: 16, color: c.ash, fontWeight: 500 }}>
+          <div>Section</div><div>What to look for</div><div>GPT-5.5</div><div>GLM 5.2</div>
+        </div>
+        <Hairline />
+        {rows.map((r) => (
+          <div key={r.section} style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.4fr 0.55fr 0.55fr', gap: 10, fontSize: 20, padding: '10px 0', borderBottom: `1px solid ${c.stone}`, alignItems: 'start' }}>
+            <b>{r.section}</b>
+            <span style={{ color: c.smoke, lineHeight: 1.32 }}>{r.lookFor}</span>
+            <span style={{ fontFamily: font.mono }}>{r.gptMark}</span>
+            <span style={{ fontFamily: font.mono }}>{r.glmMark}</span>
+          </div>
+        ))}
+      </Card>
+      <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        {examples.map((ex) => (
+          <Card key={ex.section} style={{ padding: 20 }}>
+            <div style={{ fontSize: 22, fontWeight: 600 }}>{ex.section}</div>
+            <p style={{ margin: '10px 0 0', fontSize: 20, lineHeight: 1.34, color: c.smoke }}><span style={{ fontFamily: font.mono, color: c.amber }}>GPT-5.5 · </span>{ex.gpt}</p>
+            <p style={{ margin: '8px 0 0', fontSize: 20, lineHeight: 1.34, color: c.smoke }}><span style={{ fontFamily: font.mono, color: c.green }}>GLM 5.2 · </span>{ex.glm}</p>
+          </Card>
+        ))}
+      </div>
+      <div style={{ marginTop: 24 }}><BigRule>{rule}</BigRule></div>
+      {footnote && <p style={{ marginTop: 16, color: c.ash, fontSize: 22 }}>{footnote}</p>}
     </Slide>
   );
   return PageFn;
