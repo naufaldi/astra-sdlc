@@ -70,12 +70,15 @@ export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note }
   return PageFn;
 };
 
-export const SplitImageCalloutPage = ({ title, image, rows, source }: { title: string; image: string; rows: GridCard[]; source?: string }) => {
+export const SplitImageCalloutPage = ({ kicker, title, subtitle, image, rows, source, monoStrip }: { kicker?: string; title: string; subtitle?: string; image: string; rows: GridCard[]; source?: string; monoStrip?: string }) => {
   const PageFn: Page = () => (
     <Slide source={source}>
-      <Heading title={title} subtitle="Small benchmark gap, large cost gap — when the task bar is met." />
+      <Heading kicker={kicker} title={title} subtitle={subtitle ?? 'Small benchmark gap, large cost gap — when the task bar is met.'} />
       <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 36, marginTop: 48, alignItems: 'start' }}>
-        <img src={image} alt="" style={{ width: '100%', borderRadius: 16, border: `1px solid ${c.stone}` }} />
+        <div>
+          <img src={image} alt="" style={{ width: '100%', borderRadius: 16, border: `1px solid ${c.stone}` }} />
+          {monoStrip && <p style={{ margin: '16px 0 0', fontFamily: font.mono, color: c.ash, fontSize: 18, lineHeight: 1.4 }}>{monoStrip}</p>}
+        </div>
         <div style={{ display: 'grid', gap: 16 }}>
           {rows.map((r) => (
             <Card key={r.title} style={{ padding: 24 }}>
@@ -90,11 +93,12 @@ export const SplitImageCalloutPage = ({ title, image, rows, source }: { title: s
   return PageFn;
 };
 
-export const ImageBenchmarkPage = ({ title, image, callouts, footerSource, footnote, narrative }: { title: string; image: string; callouts?: { label: string; items: string[] }[]; footerSource: string; footnote?: string; narrative?: string[] }) => {
+export const ImageBenchmarkPage = ({ kicker, title, subtitle, image, callouts, footerSource, footnote, narrative, monoStrip }: { kicker?: string; title: string; subtitle?: string; image: string; callouts?: { label: string; items: string[] }[]; footerSource: string; footnote?: string; narrative?: string[]; monoStrip?: string }) => {
   const PageFn: Page = () => (
     <Slide source={footerSource}>
-      <Heading title={title} />
+      <Heading kicker={kicker} title={title} subtitle={subtitle} />
       <img src={image} alt="" style={{ width: '100%', maxHeight: 520, objectFit: 'contain', marginTop: 32, borderRadius: 12 }} />
+      {monoStrip && <p style={{ margin: '12px 0 0', fontFamily: font.mono, color: c.ash, fontSize: 18, lineHeight: 1.4 }}>{monoStrip}</p>}
       {(callouts || narrative) && (
         <div style={{ display: 'grid', gridTemplateColumns: callouts ? '1fr 1fr' : '1fr', gap: 20, marginTop: 24 }}>
           {callouts?.map((co) => (

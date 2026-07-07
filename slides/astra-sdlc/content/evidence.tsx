@@ -5,28 +5,31 @@ import intelligenceVsCost from '../assets/intelligence-vs-cost.png';
 import { HeadingGridPage, ImageBenchmarkPage, PricingTablePage } from '../factories';
 
 export const EVIDENCE_PAGES: Page[] = [
-  HeadingGridPage({ kicker: 'what we compare', title: 'Every routing decision uses the same scorecard.', cards: [
-    { title: 'Cost per task', body: 'Input + output tokens priced per million for one SDLC pass.' },
-    { title: 'Output quality', body: 'Correctness, coverage, and maintainability on the rubric.' },
+  HeadingGridPage({ kicker: 'what we compare', title: 'Every routing decision uses the same scorecard.', subtitle: 'Not one best model. The right model for the right engineering step.', cards: [
+    { title: 'Cost per task', body: 'Input + output $/M via AstraFlow — include retries in total workflow cost.' },
+    { title: 'Output quality', body: 'Scorecard: correctness, coverage, maintainability — 1–5 per task.' },
     { title: 'Latency', body: 'Time-to-first-token and end-to-end workflow speed.' },
-    { title: 'Tokens per second', body: 'Generation throughput — slow models add up across retries.' },
-    { title: 'Context window', body: 'How much source code, docs, and history fit in one call.' },
-    { title: 'Intelligence index', body: 'Macro benchmark context — not the final arbiter.' },
-    { title: 'Arena rankings', body: 'Agentic task performance with source labels.' },
-    { title: 'Retry + correction cost', body: 'Re-prompts and human cleanup after a bad draft.' },
-    { title: 'Vendor lock-in', body: 'Open-weight routes reduce single-vendor dependency.' },
-  ], columns: 3 }),
-  ImageBenchmarkPage({ title: 'Intelligence vs cost per task', image: intelligenceVsCost, footerSource: 'artificialanalysis.ai · Intelligence vs Cost · Jul 2026', narrative: [
+    { title: 'Tokens per second', body: 'Generation throughput — slow models compound across retries.' },
+    { title: 'Context window', body: 'Fit docs, code, and history in one call without truncation.' },
+    { title: 'Prompt quality', body: 'Same prompt discipline for every model — otherwise the test is unfair.' },
+    { title: 'Use-case fit', body: 'PRD ≠ RFC ≠ code ≠ review — each step has a different task bar.' },
+    { title: 'Retry + correction', body: 'Re-prompts and human cleanup after a bad draft.' },
+  ], columns: 4, rule: 'Every model gets the same prompt, same task, same scorecard — today at Ciputra Superblok.', footnote: 'Print or screenshot the scorecard slide before hands-on.' }),
+  ImageBenchmarkPage({ kicker: 'macro proof', title: 'Intelligence vs cost per task', subtitle: 'Open-weight models cluster top-left — AstraFlow routes all of them through one gateway.', image: intelligenceVsCost, footerSource: 'artificialanalysis.ai · Intelligence vs Cost · Jul 2026', monoStrip: 'GET /v1/models · POST /v1/chat/completions · model: {catalog_id}', narrative: [
     'Opus 4.8 ~56 intel · ~$2.50/task — premium ceiling',
     'GPT-5.5 ~55 intel · ~$1.20/task — workshop baseline',
-    'GLM-5.2 ~51 intel · ~$0.45/task — top-left move, >60% cost cut',
-    'DeepSeek V4 ~44 intel · ~$0.045/task — cost anchor zone',
-  ], footnote: 'Workshop uses Kimi K2.7 Code; scatter shows K2.6 ~43 intel.' }),
-  ImageBenchmarkPage({ title: 'Benchmark: Arena.ai Agent Leaderboard', image: arenaLeaderboard, footerSource: 'arena.ai/leaderboard/agent · Jul 2026', narrative: [
-    'GLM 5.2 #7 MIT — beats GPT 5.5 base #10 on agent tasks',
-    'Opus 4.8 #2 · GPT 5.5 xHigh #3 — premium agent baselines',
-    'Kimi K2.7 #14 on agent board — pair with Kimi coding chart',
-  ]}),
+    'GLM-5.2 ~51 intel · zai-org/glm-5 — PRD/review candidate, >60% cost cut',
+    'Kimi K2.6 ~43 intel · moonshotai/* — RFC/code candidate (workshop uses K2.7)',
+    'DeepSeek V4 ~44 intel · deepseek-ai/DeepSeek-V3.2-Exp — cost anchor at ¥2–3/M',
+  ], footnote: 'Charts set context — workshop scorecard decides. Scatter shows K2.6; workshop compares K2.7 Code.' }),
+  ImageBenchmarkPage({ kicker: 'agent tasks', title: 'Benchmark: Arena.ai Agent Leaderboard', subtitle: 'Arena measures agentic work — supports routing GLM 5.2 for PRD and structured drafting.', image: arenaLeaderboard, footerSource: 'arena.ai/leaderboard/agent · Jul 2026', callouts: [
+    { label: 'Route on AstraFlow', items: ['zai-org/glm-5', 'PRD + review open-weight pick'] },
+    { label: 'Premium fallback', items: ['Opus 4.8', 'GPT-5.5 when task bar not met'] },
+  ], narrative: [
+    'GLM 5.2 #7 MIT — workshop PRD pick, beats GPT 5.5 base #10 on agent tasks',
+    'Opus 4.8 #2 · GPT 5.5 xHigh #3 — premium baselines when ambiguity is high',
+    'Kimi K2.7 #14 on agent board — pair with Kimi coding chart (slide 11) for code/RFC',
+  ], footnote: 'Agent rank ≠ coding rank — task-specific routing. Workshop rubric is final arbiter.' }),
   ImageBenchmarkPage({ title: 'Coding & Agent Benchmarks', image: kimiBenchmarks, footerSource: 'Kimi vendor benchmark * · Jul 2026', callouts: [
     { label: 'Coding', items: ['Kimi Code Bench v2*', 'Program Bench', 'MLS Bench Lite'] },
     { label: 'Agents', items: ['Kimi Claw 24/7 Bench*', 'MCP Atlas', 'MCP Mark Verified'] },

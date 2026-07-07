@@ -13,15 +13,15 @@ export const PROVIDER_PAGES: Page[] = [
     { title: 'Why they matter', body: 'More provider options, lower per-task cost, less vendor lock-in, room for routing experiments.' },
     { title: 'Where to be careful', body: 'Quality varies by task. A cheap model that needs many retries may be expensive in human time.' },
   ], columns: 2 }),
-  HeadingGridPage({ kicker: 'definition', title: 'Replace does not mean “win every benchmark.”', cards: [
-    { title: 'Task-specific', body: 'PRD quality is not the same as code review quality.' },
-    { title: 'Human-reviewed', body: 'The engineer still owns the decision and accepts the risk.' },
-    { title: 'Measured', body: 'Cost and quality are scored with the same rubric every time.' },
-  ], rule: 'Replace means: the candidate produces output good enough for this SDLC task at a lower total cost.' }),
-  SplitImageCalloutPage({ title: 'The win: small benchmark gap, large cost gap', image: stackSwapWin, source: 'Reference frame · adapt pairs per SDLC task · verify on scorecard', rows: [
-    { title: 'RFC · Opus 4.8 → Kimi K2.7', body: '~8% benchmark gap, ~11× cheaper — same pair as reasoning reference.' },
-    { title: 'PRD · GPT-5.5 → GLM 5.2', body: '~3% gap, ~5× cheaper — GLM strong on Arena agent leaderboard.' },
-    { title: 'Code · GPT-5.5 → Kimi K2.7', body: '~5–18% gap, ~7× cheaper — see Kimi coding benchmark slide.' },
-    { title: 'Review · Opus 4.8 → GLM 5.2', body: 'Checklist + reasoning tradeoff — human review stays in loop.' },
+  HeadingGridPage({ kicker: 'from vibe to routing', title: 'Replace does not mean “win every benchmark.”', subtitle: 'Same prompt, same task — score the output, not the vibe.', source: 'Stop Reading, Start Vibe-ing · Naufaldi × UCloud Jakarta · 12 Jul 2026', cards: [
+    { title: 'Same task, same prompt', body: 'PRD, RFC, code, and review use identical inputs for every model — fair comparison only.' },
+    { title: 'Human-reviewed', body: 'The engineer still owns acceptance. AstraFlow only swaps the model behind the API call.' },
+    { title: 'Measured on scorecard', body: 'Correctness, coverage, and cleanup effort — scored 1–5 per task, not vibes.' },
+  ], rule: 'Replace means: good enough for this SDLC step at lower total cost — verified on today\'s scorecard, not a leaderboard.' }),
+  SplitImageCalloutPage({ kicker: 'workshop pairs', title: 'The win: small benchmark gap, large cost gap', subtitle: 'One API key, one base_url — change model only between runs.', image: stackSwapWin, source: 'AstraFlow · api-sg.umodelverse.ai/v1/ · verify live pricing morning-of', monoStrip: 'curl $ENDPOINT/v1/chat/completions -d \'{"model":"zai-org/glm-5",...}\'  → swap model param only', rows: [
+    { title: 'PRD · GPT-5.5 → GLM 5.2', body: 'zai-org/glm-5 · ~3% gap, ~5× cheaper on AstraFlow — GLM #7 on Arena agent board.' },
+    { title: 'RFC · Opus 4.8 → Kimi K2.7', body: 'moonshotai/kimi-k2.5 · ~8% gap, ~7–11× cheaper — draft alternatives and risk lists.' },
+    { title: 'Code · GPT-5.5 → Kimi K2.7', body: 'moonshotai/Kimi-K2-Instruct · ~5–18% gap, ~7× cheaper — see Kimi coding chart (slide 11).' },
+    { title: 'Review · Opus 4.8 → GLM 5.2', body: 'zai-org/glm-5 · checklist amplifier — human review stays in the loop for deep issues.' },
   ]}),
 ];
