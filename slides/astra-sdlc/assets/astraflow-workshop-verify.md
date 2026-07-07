@@ -40,9 +40,9 @@ Run once per demo pair before session.
 
 Verify live $/M at: https://astraflow.ucloud.cn/docs/modelverse/price
 
-Update slide 13 rows if numbers shifted.
+Update slide 15 rows if numbers shifted.
 
-## 4. Demo prompts (same text as slide 26 hands-on)
+## 4. Demo prompts (same text as slide 28 hands-on)
 
 - PRD: voucher feature → PRD, GPT-5.5 vs GLM 5.2
 - RFC: data model + rollout, Opus 4.8 vs Kimi K2.7
@@ -54,9 +54,9 @@ Update slide 13 rows if numbers shifted.
 
 | Block | Min | Slides | Notes |
 |-------|-----|--------|-------|
-| Welcome + framing | 15 | 1–3 | Laptops ready |
-| AstraFlow + thesis | 20 | 4–7 | Live API swap on slide 4 |
-| Evidence (compressed) | 15 | 8–11, 13–14 | Skip slide 12 if tight |
-| Compares + demos | 45 | 15–23 | Second screen |
-| Hands-on | 40 | 24–27 | Scorecard on slide 27 |
-| Q&A + closing | 15 | 28 | |
+| Welcome + framing | 15 | 1–5 | Cover → constraints → baseline → problem → promise |
+| AstraFlow + thesis | 20 | 6–9 | Live API swap on slide 6 |
+| Evidence (compressed) | 15 | 10–13, 15–16 | Skip slide 14 if tight |
+| Compares + demos | 45 | 17–25 | Second screen |
+| Hands-on | 40 | 26–29 | Scorecard on slide 29 |
+| Q&A + closing | 15 | 30 | |

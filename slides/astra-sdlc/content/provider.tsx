@@ -3,7 +3,7 @@ import stackSwapWin from '../assets/stack-swap-win.png';
 import { FlowDiagramPage, HeadingGridPage, SplitImageCalloutPage } from '../factories';
 
 export const PROVIDER_PAGES: Page[] = [
-  FlowDiagramPage({ kicker: 'provider layer', title: 'AstraFlow is the access layer, not the SDLC workflow.', steps: [
+  FlowDiagramPage({ kicker: 'provider layer', title: 'AstraFlow is the access layer, not the SDLC workflow.', subtitle: 'Slide 2 named the routing pattern — here is the OpenAI-compatible gateway.', steps: [
     { label: '01', detail: 'IDE, agent, CLI, app' },
     { label: '02', detail: 'AstraFlow gateway' },
     { label: '03', detail: 'OpenAI-compatible /v1/chat/completions' },
