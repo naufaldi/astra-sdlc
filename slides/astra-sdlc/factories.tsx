@@ -51,39 +51,56 @@ export const HeadingGridPage = ({ kicker, title, subtitle, cards, columns = 3, s
 };
 
 export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note, callout }: { kicker?: string; title: string; subtitle?: string; steps: FlowStep[]; source?: string; note?: string; callout?: { title: string; body: string; footnote?: string } }) => {
-  const compact = steps.length >= 5;
-  const cardWidth = compact ? 236 : 280;
-  const connectorWidth = compact ? 28 : 48;
+  const many = steps.length >= 5;
+  const connectorWidth = many ? 18 : 48;
   const PageFn: Page = () => (
-    <Slide source={source}>
-      <Heading kicker={kicker} title={title} subtitle={subtitle} size={compact ? 'compact' : 'default'} />
-      <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', gap: compact ? 12 : 16, marginTop: compact ? 56 : 72, flexWrap: 'nowrap' }}>
-        {steps.map((s, i) => (
-          <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 16 }}>
-            {i > 0 && <div style={{ width: connectorWidth, height: 1, flexShrink: 0, background: c.stone }} />}
-            <Card style={{ width: cardWidth, minHeight: compact ? 128 : 140, padding: compact ? 20 : 24 }}>
-              <div style={{ fontFamily: font.mono, color: c.smoke, fontSize: compact ? 15 : 18, whiteSpace: 'nowrap' }}>{s.label}</div>
-              <div style={{ marginTop: compact ? 12 : 14, fontSize: compact ? 24 : 28, lineHeight: 1.25, fontWeight: 600 }}>{s.detail}</div>
-            </Card>
-          </div>
-        ))}
-      </div>
-      {note && <p style={{ margin: compact ? '48px auto 0' : '64px auto 0', maxWidth: 1180, textAlign: 'center', color: c.smoke, fontSize: compact ? 30 : 34, lineHeight: 1.38 }}>{note}</p>}
-      {callout && (
-        <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-          <Card style={{ padding: 28 }}>
-            <div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>{callout.title}</div>
-            <div style={{ marginTop: 14, fontSize: 28, lineHeight: 1.3, fontWeight: 600 }}>{callout.body}</div>
-            {callout.footnote && <p style={{ marginTop: 16, color: c.ash, fontSize: 22 }}>{callout.footnote}</p>}
-          </Card>
-          <Card style={{ padding: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', background: c.ink2, color: c.bg }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: font.mono, fontSize: 18, color: c.ash }}>GET /v1/models</div>
-              <div style={{ marginTop: 12, fontSize: 28, lineHeight: 1.3, fontWeight: 500 }}>Verify live model IDs and pricing before routing.</div>
+    <Slide source={source} pad={many ? '88px 96px 108px' : undefined}>
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Heading kicker={kicker} title={title} subtitle={subtitle} size={many ? 'compact' : 'default'} />
+        <div
+          style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            marginTop: many ? 20 : 48,
+          }}
+        >
+          <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'stretch', width: '100%', flexWrap: 'nowrap' }}>
+              {steps.map((s, i) => (
+                <div key={s.label} style={{ display: 'contents' }}>
+                  {i > 0 && <div style={{ width: connectorWidth, height: 1, flexShrink: 0, alignSelf: 'center', margin: many ? '0 8px' : '0 16px', background: c.stone }} />}
+                  <Card style={{ flex: 1, minWidth: 0, minHeight: many ? 236 : 140, padding: many ? 36 : 24 }}>
+                    <div style={{ fontFamily: font.mono, color: c.smoke, fontSize: many ? 20 : 18 }}>{s.label}</div>
+                    <div style={{ marginTop: 18, fontSize: many ? 34 : 28, lineHeight: 1.2, fontWeight: 600 }}>{s.detail}</div>
+                  </Card>
+                </div>
+              ))}
             </div>
-          </Card>
+          </div>
+          {note && (
+            <p style={{ margin: many ? '28px 0 0' : '48px 0 0', maxWidth: 1400, alignSelf: 'center', textAlign: 'center', color: c.smoke, fontSize: many ? 36 : 34, lineHeight: 1.34 }}>
+              {note}
+            </p>
+          )}
+          {callout && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginTop: 32 }}>
+              <Card style={{ padding: 28 }}>
+                <div style={{ fontFamily: font.mono, fontSize: 18, color: c.smoke }}>{callout.title}</div>
+                <div style={{ marginTop: 14, fontSize: 28, lineHeight: 1.3, fontWeight: 600 }}>{callout.body}</div>
+                {callout.footnote && <p style={{ marginTop: 16, color: c.ash, fontSize: 22 }}>{callout.footnote}</p>}
+              </Card>
+              <Card style={{ padding: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', background: c.ink2, color: c.bg }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: font.mono, fontSize: 18, color: c.ash }}>GET /v1/models</div>
+                  <div style={{ marginTop: 12, fontSize: 28, lineHeight: 1.3, fontWeight: 500 }}>Verify live model IDs and pricing before routing.</div>
+                </div>
+              </Card>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </Slide>
   );
   return PageFn;
