@@ -1,5 +1,5 @@
 import type { Page } from '@open-slide/core';
-import cursorEvalLeaderboard from '../assets/cursor-eval-leaderboard.png';
+import arenaLeaderboard from '../assets/arena-agent-leaderboard.png';
 import intelligenceVsCost from '../assets/intelligence-vs-cost.png';
 import { ImageBenchmarkPage } from '../factories';
 
@@ -18,16 +18,16 @@ export const INTELLIGENCE_PAGES: Page[] = [
     footnote: 'Verify model IDs and live pricing before the workshop.',
   }),
   ImageBenchmarkPage({
-    kicker: 'cursor eval',
-    title: 'Same Cursor eval. Scored output. Real cost.',
-    subtitle: 'Cursor\'s agent benchmark — score, cost, tokens, and steps on identical tasks.',
-    image: cursorEvalLeaderboard,
-    footerSource: 'Cursor eval · agent benchmark · Jul 2026',
+    kicker: 'arena.ai',
+    title: 'Same Arena agent board. Public ranks. Real proof.',
+    subtitle: 'Arena.ai Agent Leaderboard — net improvement on identical agent tasks across frontier and open-weight models.',
+    image: arenaLeaderboard,
+    footerSource: 'arena.ai/leaderboard/agent · Jul 2026',
     callouts: [
-      { label: 'frontier tier', items: ['Fable 5 Max · Opus 4.8 · GPT-5.5 — top eval scores, $4–18 per task.'] },
-      { label: 'efficiency outlier', items: ['Composer 2.5 — 63% score at $0.55/task — cost-per-step matters as much as headline score.'] },
-      { label: 'workshop', items: ['Run frontier and open-weight routes through the same Cursor eval — route when the bar is met.'] },
+      { label: 'frontier tier', items: ['Opus 4.8 #2 · GPT 5.5 xHigh #3 — premium agent baselines.'] },
+      { label: 'open-weight proof', items: ['GLM 5.2 #7 MIT beats GPT 5.5 base #10; Kimi K2.7 on the board.'] },
+      { label: 'workshop', items: ['Use Arena as context — route frontier and open-weight when the task rubric passes.'] },
     ],
-    footnote: 'Macro charts set context; Cursor eval is the agent benchmark — not a custom SDLC scorecard.',
+    footnote: 'Macro Arena chart sets context — workshop rubric is the final arbiter.',
   }),
 ];
