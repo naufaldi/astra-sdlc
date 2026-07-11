@@ -1,7 +1,6 @@
 import type { Page } from '@open-slide/core';
-import arenaLeaderboard from '../assets/arena-agent-leaderboard.png';
 import stackSwapWin from '../assets/stack-swap-win.png';
-import { HeadingGridPage, ImageBenchmarkPage, PricingTablePage, SplitImageCalloutPage } from '../factories';
+import { HeadingGridPage, PricingTablePage, SplitImageCalloutPage } from '../factories';
 
 export const OPEN_WEIGHT_BASELINE = HeadingGridPage({
   kicker: 'open-weight baseline',
@@ -59,17 +58,6 @@ export const SMALL_INTEL_LARGE_COST = SplitImageCalloutPage({
   ],
 });
 
-export const ARENA_BENCHMARK = ImageBenchmarkPage({
-  title: 'Benchmark: Arena.ai Agent Leaderboard',
-  image: arenaLeaderboard,
-  footerSource: 'arena.ai/leaderboard/agent · Jul 2026',
-  narrative: [
-    'GLM 5.2 #7 MIT — beats GPT 5.5 base #10 on agent tasks',
-    'Opus 4.8 #2 · GPT 5.5 xHigh #3 — premium agent baselines',
-    'Kimi K2.7 #14 on agent board — public leaderboard proof',
-  ],
-});
-
 export const ROUTING_PATTERNS = HeadingGridPage({
   kicker: 'what we can change',
   title: 'Stop using one frontier model for everything.',
@@ -119,7 +107,6 @@ export const BASELINE_PAGES: Page[] = [
   OPEN_WEIGHT_BASELINE,
   MEASURING_MODELS,
   SMALL_INTEL_LARGE_COST,
-  ARENA_BENCHMARK,
   ROUTING_PATTERNS,
   PRICING_TABLE,
 ];
