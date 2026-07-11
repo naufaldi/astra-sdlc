@@ -51,21 +51,24 @@ export const HeadingGridPage = ({ kicker, title, subtitle, cards, columns = 3, s
 };
 
 export const FlowDiagramPage = ({ kicker, title, subtitle, steps, source, note, callout }: { kicker?: string; title: string; subtitle?: string; steps: FlowStep[]; source?: string; note?: string; callout?: { title: string; body: string; footnote?: string } }) => {
+  const compact = steps.length >= 5;
+  const cardWidth = compact ? 236 : 280;
+  const connectorWidth = compact ? 28 : 48;
   const PageFn: Page = () => (
     <Slide source={source}>
-      <Heading kicker={kicker} title={title} subtitle={subtitle} />
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 72, flexWrap: 'wrap' }}>
+      <Heading kicker={kicker} title={title} subtitle={subtitle} size={compact ? 'compact' : 'default'} />
+      <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', gap: compact ? 12 : 16, marginTop: compact ? 56 : 72, flexWrap: 'nowrap' }}>
         {steps.map((s, i) => (
-          <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {i > 0 && <div style={{ width: 48, height: 1, background: c.stone }} />}
-            <Card style={{ width: 280, minHeight: 140, padding: 24 }}>
-              <div style={{ fontFamily: font.mono, color: c.smoke, fontSize: 18 }}>{s.label}</div>
-              <div style={{ marginTop: 14, fontSize: 28, lineHeight: 1.25, fontWeight: 600 }}>{s.detail}</div>
+          <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: compact ? 12 : 16 }}>
+            {i > 0 && <div style={{ width: connectorWidth, height: 1, flexShrink: 0, background: c.stone }} />}
+            <Card style={{ width: cardWidth, minHeight: compact ? 128 : 140, padding: compact ? 20 : 24 }}>
+              <div style={{ fontFamily: font.mono, color: c.smoke, fontSize: compact ? 15 : 18, whiteSpace: 'nowrap' }}>{s.label}</div>
+              <div style={{ marginTop: compact ? 12 : 14, fontSize: compact ? 24 : 28, lineHeight: 1.25, fontWeight: 600 }}>{s.detail}</div>
             </Card>
           </div>
         ))}
       </div>
-      {note && <p style={{ margin: '64px auto 0', maxWidth: 1180, textAlign: 'center', color: c.smoke, fontSize: 34, lineHeight: 1.38 }}>{note}</p>}
+      {note && <p style={{ margin: compact ? '48px auto 0' : '64px auto 0', maxWidth: 1180, textAlign: 'center', color: c.smoke, fontSize: compact ? 30 : 34, lineHeight: 1.38 }}>{note}</p>}
       {callout && (
         <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           <Card style={{ padding: 28 }}>
